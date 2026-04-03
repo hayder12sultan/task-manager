@@ -1,4 +1,4 @@
-# main.py - Module 4: Add list feature
+# main.py - Module 5: Add complete task feature
 
 from tasks import TaskManager
 
@@ -28,6 +28,22 @@ def add_task_interactive(task_manager):
     task = task_manager.add_task(title, description)
     print(f"\n✅ Task #{task['id']} added: '{task['title']}'")
 
+def mark_complete_interactive(task_manager):
+    """Interactive function to mark a task complete"""
+    if task_manager.get_task_count() == 0:
+        print("\n📭 No tasks to complete! Use 'add' to create a task first.")
+        return
+    
+    print("\n--- MARK TASK COMPLETE ---")
+    task_manager.display_all_tasks()
+    
+    try:
+        task_id = int(input("\nEnter task number to mark as complete: ").strip())
+        success, message = task_manager.mark_complete(task_id)
+        print(f"\n{'✅' if success else '❌'} {message}")
+    except ValueError:
+        print("\n❌ Please enter a valid task number!")
+
 def main():
     """Main entry point for Task Manager"""
     task_manager = TaskManager()
@@ -48,6 +64,9 @@ def main():
         
         elif command == "list":
             task_manager.display_all_tasks()
+        
+        elif command == "done":
+            mark_complete_interactive(task_manager)
         
         elif command == "help":
             display_help()
