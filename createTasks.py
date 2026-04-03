@@ -1,4 +1,4 @@
-# tasks.py - Updated with display methods
+# tasks.py - Module 5: Add complete task feature
 
 class TaskManager:
     """Manages tasks in memory"""
@@ -27,6 +27,16 @@ class TaskManager:
         """Return number of tasks"""
         return len(self.tasks)
     
+    def mark_complete(self, task_id):
+        """Mark a task as complete by ID"""
+        for task in self.tasks:
+            if task['id'] == task_id:
+                if task['completed']:
+                    return False, "Task already completed"
+                task['completed'] = True
+                return True, f"Task #{task_id} marked as complete"
+        return False, f"Task #{task_id} not found"
+    
     def display_all_tasks(self):
         """Display all tasks in a formatted way"""
         if not self.tasks:
@@ -50,10 +60,16 @@ class TaskManager:
     def get_completed_count(self):
         """Return number of completed tasks"""
         return sum(1 for task in self.tasks if task['completed'])
+    
+    def get_pending_tasks(self):
+        """Return only pending tasks"""
+        return [task for task in self.tasks if not task['completed']]
 
 # For testing
 if __name__ == "__main__":
     tm = TaskManager()
     tm.add_task("Buy groceries", "Milk, eggs, bread")
     tm.add_task("Learn Git", "Complete GitHub tutorial")
+    tm.display_all_tasks()
+    tm.mark_complete(1)
     tm.display_all_tasks()
