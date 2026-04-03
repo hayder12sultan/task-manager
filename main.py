@@ -1,4 +1,4 @@
-# main.py - Module 3: Add task creation feature
+# main.py - Module 4: Add list feature
 
 from tasks import TaskManager
 
@@ -45,6 +45,9 @@ def main():
         
         if command == "add":
             add_task_interactive(task_manager)
+        
+        elif command == "list":
+            task_manager.display_all_tasks()
         
         elif command == "help":
             display_help()
