@@ -1,6 +1,7 @@
-# main.py - Module 5: Add complete task feature
+# main.py - Module 6: Final version with persistent storage
 
 from tasks import TaskManager
+from storage import TaskStorage
 
 def display_help():
     """Display available commands"""
@@ -45,13 +46,16 @@ def mark_complete_interactive(task_manager):
         print("\n❌ Please enter a valid task number!")
 
 def main():
-    """Main entry point for Task Manager"""
-    task_manager = TaskManager()
+    """Main entry point for Task Manager with persistence"""
+    # Initialize storage and task manager
+    storage = TaskStorage("tasks.json")
+    task_manager = TaskManager(storage)
     
     print("=" * 40)
     print("     TASK MANAGER STARTED")
     print("=" * 40)
-    print("\nYour personal task management system")
+    print("\n💾 Persistent storage enabled - Your tasks are saved automatically!")
+    print("   Tasks are saved to 'tasks.json' in the current directory\n")
     
     display_help()
     
@@ -72,7 +76,9 @@ def main():
             display_help()
         
         elif command == "exit":
-            print("\n👋 Goodbye! Your tasks have been saved.")
+            print("\n💾 Saving your tasks...")
+            task_manager.save_to_storage()
+            print("👋 Goodbye! Your tasks have been saved for next time.")
             break
         
         else:
